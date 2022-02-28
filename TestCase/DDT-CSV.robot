@@ -1,0 +1,19 @@
+*** Settings ***
+Library     SeleniumLibrary
+Resource    ../Resources/common.robot
+Library     DataDriver  ../Data/data.csv
+
+Suite Setup     common.Start TestCase
+Suite Teardown  common.Finish TestCase
+Test Template   Invalid Login Scenarios
+
+*** Test Cases ***
+Verify Login Fails with Invalid Creds   ${username}     ${password}     ${error_msg}
+
+*** Keywords ***
+Invalid Login Scenarios
+    [Arguments]     ${username}     ${password}     ${error_msg}
+    Input Text      ${txtbox_username}      ${username}
+    Input Text      ${txtbox_password}      ${password}
+    Click Button    ${btn_login}
+    Element Should contain      ${txt_error}    ${error_msg}
